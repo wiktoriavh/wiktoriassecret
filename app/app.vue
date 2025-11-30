@@ -17,7 +17,9 @@ body {
   display: flex;
   flex-direction: column;
   background-image: url('/images/paper-texture.jpg');
-  width: 70ch;
+  max-width: 70ch;
+  padding: 0 1rem;
+  box-sizing: border-box;
   margin: 0 auto;
 }
 

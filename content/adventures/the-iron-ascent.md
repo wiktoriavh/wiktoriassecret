@@ -3,6 +3,7 @@ title: The Iron Ascent
 description: Trapped in an endless loop, a warrior climbs through rooms of monsters and ruins. Each failure transforms more flesh to iron.
 date: 2025-11-20
 ttrpg: ironbound
+ttrpg-link: https://marrensmusings.itch.io/ironbound
 ---
 
 i wake up, in a prison cell. the door unlocked, and my weapon right by my side.
