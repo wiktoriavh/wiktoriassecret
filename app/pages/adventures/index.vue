@@ -16,18 +16,17 @@ useSeoMeta({
 
 <template>
   <div class="adventures-index">
-    <h1>Adventures</h1>
     <p>Explore all my adventures and stories.</p>
     
     <div v-if="adventures && adventures.length > 0" class="adventures-list">
-      <article v-for="adventure in adventures" :key="adventure._id" class="adventure-item">
+      <article v-for="adventure in adventures" :key="adventure.id" class="adventure-item">
         <NuxtLink :to="adventure.path" class="adventure-link">
           <h2>{{ adventure.title || adventure.stem }}</h2>
           <p v-if="adventure.description" class="description">
             {{ adventure.description }}
           </p>
-          <time v-if="adventure.date" :datetime="adventure.date" class="date">
-            {{ new Date(adventure.date).toLocaleDateString('en-US', { 
+          <time v-if="adventure.meta.date" :datetime="adventure.meta.date" class="date">
+            {{ new Date(adventure.meta.date).toLocaleDateString('en-US', { 
               year: 'numeric', 
               month: 'long', 
               day: 'numeric' 

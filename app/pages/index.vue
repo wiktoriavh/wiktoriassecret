@@ -20,8 +20,6 @@ useSeoMeta({
 
 <template>
   <div>
-    <h1>Wiktoria's Adventures</h1>
-    
     <p>Welcome! Here are all my adventure posts:</p>
     
     <div v-if="adventures && adventures.length > 0">
