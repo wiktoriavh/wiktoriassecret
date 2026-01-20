@@ -13,10 +13,21 @@ html, body {
   font-size: 1.2rem;
 }
 
+html {
+  position: relative;
+}
+
+html::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url('/images/paper-texture.jpg');
+  z-index: -1;
+}
+
 body {
   display: flex;
   flex-direction: column;
-  background-image: url('/images/paper-texture.jpg');
   max-width: 70ch;
   padding: 0 1rem;
   box-sizing: border-box;
