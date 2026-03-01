@@ -1,10 +1,14 @@
 <template>
   <Header />
 
-  <main>
-    <!-- page content -->
-    <slot />
-  </main>
+  <div class="container">
+    <main>
+      <!-- page content -->
+      <slot />
+    </main>
+
+    <Aside />
+  </div>
 
   <Footer />
 </template>
@@ -13,5 +17,10 @@
 main {
   flex: 1;
 }
-</style>
 
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+</style>
