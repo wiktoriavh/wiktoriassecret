@@ -36,29 +36,27 @@ useSeoMeta({
 <template>
   <h1>All about Wiktoria's Secret</h1>
 
-  <section>
-    <DirectorySpan>
-      /<h2 class="directory-title">Adventures</h2>
-    </DirectorySpan>
+  <section class="card">
+    <h2>My recent TTRPG adventures</h2>
 
     <PostCard :posts="(adventures || []) as Adventure[]" />
   </section>
 </template>
 
 <style scoped>
-h2.directory-title {
-  margin-bottom: 0;
-  font-size: inherit;
-  font-weight: inherit;
-  text-transform: inherit;
-  letter-spacing: inherit;
-  padding: inherit;
-  border-radius: inherit;
-  background-color: inherit;
-  border: inherit;
-  text-decoration: inherit;
-  text-underline-offset: inherit;
-  display: inline;
+h1 {
+  margin-bottom: 1rem;
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transform: rotate(.3deg);
+}
+
+h2 {
+  font-size: 1.175rem
 }
 
 .item {
