@@ -1,11 +1,12 @@
 <script setup lang="ts">
 const links = [
-  { name: 'Credits', to: '/credits' },
+  { name: 'Adventures', to: '/adventures' },
 ]
 </script>
 
 <template>
   <footer class="navigation">
+    Wiktoria's Secret
     <NuxtLink v-for="link in links" :key="link.to" :to="link.to">{{ link.name }}</NuxtLink>
   </footer>
 </template>

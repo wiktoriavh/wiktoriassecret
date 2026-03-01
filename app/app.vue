@@ -5,41 +5,51 @@
 </template>
 
 <style>
-html, body {
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Tagesschrift', sans-serif;
+}
+
+html,
+body {
+  font-family: sans-serif;
   min-height: 100%;
-  font-size: 1.2rem;
-}
-
-html {
-  position: relative;
-}
-
-html::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url('/images/paper-texture.jpg');
-  z-index: -1;
 }
 
 body {
   display: flex;
   flex-direction: column;
-  max-width: 70ch;
-  padding: 0 1rem;
-  box-sizing: border-box;
   margin: 0 auto;
+  background-color: #280905;
+  color: #fcf8f0;
+  padding: 2rem;
 }
 
-a, a:visited {
-  color: #780606;
+a,
+a:visited {
+  color: #F68048;
 }
 
 a:hover {
-  color: rgb(161, 30, 30);
+  color: hsl(19, 91%, 50%);
   text-underline-offset: 0.2em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 1.5rem;
+}
+
+.card {
+  background-color: #f8f4e8;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  color: #280905;
 }
 </style>

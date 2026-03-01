@@ -16,6 +16,16 @@ export default defineNuxtConfig({
     '@nuxt/image'
   ],
 
+  content: {
+    markdown: {
+      remarkPlugins: [],
+      rehypePlugins: []
+    },
+    highlight: {
+      theme: 'github-dark'
+    }
+  },
+
   nitro: {
     output: {
       dir: 'dist'
