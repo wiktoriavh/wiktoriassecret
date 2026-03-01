@@ -1,11 +1,23 @@
 <script setup lang="ts">
 const { data: adventures } = await useAsyncData('adventures', async () => {
   const items = await queryCollection('content').all()
-  
-  // Filter for adventures
-  return items.filter(item => 
-    item.path?.startsWith('/adventures/') && item.stem !== 'index'
-  )
+
+  // Filter for adventures and sort by date (newest first)
+  return items
+    .filter(item => item.path?.startsWith('/adventures/') && item.stem !== 'index')
+    .sort((a, b) => {
+      const dateA = a.date ? new Date(a.date).getTime() : 0
+      const dateB = b.date ? new Date(b.date).getTime() : 0
+      return dateB - dateA
+    })
+    .map(item => ({
+      id: item.id,
+      title: item.title,
+      description: item.description,
+      date: item.date,
+      path: item.path,
+      stem: item.stem
+    }))
 })
 
 useSeoMeta({
@@ -17,7 +29,7 @@ useSeoMeta({
 <template>
   <div class="adventures-index">
     <p>Explore all my adventures and stories.</p>
-    
+
     <div v-if="adventures && adventures.length > 0" class="adventures-list">
       <article v-for="adventure in adventures" :key="adventure.id" class="adventure-item">
         <NuxtLink :to="adventure.path" class="adventure-link">
@@ -25,17 +37,17 @@ useSeoMeta({
           <p v-if="adventure.description" class="description">
             {{ adventure.description }}
           </p>
-          <time v-if="adventure.meta.date" :datetime="adventure.meta.date" class="date">
-            {{ new Date(adventure.meta.date).toLocaleDateString('en-US', { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric' 
+          <time v-if="adventure.date" :datetime="adventure.date" class="date">
+            {{ new Date(adventure.date).toLocaleDateString(undefined, {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
             }) }}
           </time>
         </NuxtLink>
       </article>
     </div>
-    
+
     <p v-else class="no-adventures">
       No adventures yet. Check back soon!
     </p>
@@ -100,4 +112,3 @@ h1 {
   color: #6b7280;
 }
 </style>
-
