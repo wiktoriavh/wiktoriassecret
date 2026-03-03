@@ -2,15 +2,11 @@
   <span class="dice-roll">
     <span class="notation">{{ notation }}</span>
     <span class="equals">=</span>
-    <span
-      v-for="(roll, index) in processedRolls"
-      :key="index"
-      :class="{
-        'roll-value': true,
-        'roll-kept': roll.kept,
-        'roll-dropped': !roll.kept
-      }"
-    >
+    <span v-for="(roll, index) in processedRolls" :key="index" :class="{
+      'roll-value': true,
+      'roll-kept': roll.kept,
+      'roll-dropped': !roll.kept
+    }">
       {{ roll.value }}<span v-if="index < processedRolls.length - 1">, </span>
     </span>
     <span v-if="parsedNotation.modifier !== 0" class="modifier">
@@ -55,10 +51,10 @@ interface ProcessedRoll {
 // Parse dice notation
 const parsedNotation = computed<ParsedNotation>(() => {
   const notation = props.notation.toLowerCase().trim()
-  
+
   // Match pattern: XdY[kh/kl][N][+/-M]
-  const match = notation.match(/^(\d+)d(\d+)(?:(kh|kl)(\d+)?)?([+\-]\d+)?$/)
-  
+  const match = notation.match(/^(\d+)d(\d+)(?:(kh|kl)(\d+)?)?([+-]\d+)?$/)
+
   if (!match) {
     return {
       count: 1,
@@ -68,12 +64,12 @@ const parsedNotation = computed<ParsedNotation>(() => {
       modifier: 0
     }
   }
-  
+
   const [, count, sides, keepType, keepCount, modifier] = match
-  
+
   return {
-    count: parseInt(count),
-    sides: parseInt(sides),
+    count: parseInt(count!),
+    sides: parseInt(sides!),
     keepType: keepType ? (keepType === 'kh' ? 'high' : 'low') : null,
     keepCount: keepCount ? parseInt(keepCount) : (keepType ? 1 : null),
     modifier: modifier ? parseInt(modifier) : 0
@@ -83,7 +79,7 @@ const parsedNotation = computed<ParsedNotation>(() => {
 // Process rolls to determine which should be kept/dropped
 const processedRolls = computed<ProcessedRoll[]>(() => {
   const { keepType, keepCount } = parsedNotation.value
-  
+
   if (!keepType || keepCount === null) {
     // No keep rule, all dice are kept
     return props.rolls.map((value, index) => ({
@@ -92,14 +88,14 @@ const processedRolls = computed<ProcessedRoll[]>(() => {
       index
     }))
   }
-  
+
   // Create indexed array for sorting
   const indexedRolls = props.rolls.map((value, index) => ({
     value,
     kept: false,
     index
   }))
-  
+
   // Sort by value
   const sorted = [...indexedRolls].sort((a, b) => {
     if (keepType === 'high') {
@@ -108,15 +104,15 @@ const processedRolls = computed<ProcessedRoll[]>(() => {
       return a.value - b.value // Ascending for keep low
     }
   })
-  
+
   // Mark the top N as kept
   for (let i = 0; i < Math.min(keepCount, sorted.length); i++) {
-    const rollToKeep = indexedRolls.find(r => r.index === sorted[i].index)
+    const rollToKeep = indexedRolls.find(r => r.index === sorted[i]!.index)
     if (rollToKeep) {
       rollToKeep.kept = true
     }
   }
-  
+
   return indexedRolls
 })
 
@@ -125,7 +121,7 @@ const total = computed<number>(() => {
   const keptSum = processedRolls.value
     .filter(r => r.kept)
     .reduce((sum, r) => sum + r.value, 0)
-  
+
   return keptSum + parsedNotation.value.modifier
 })
 
@@ -139,7 +135,7 @@ const showTotal = computed<boolean>(() => {
 const isSuccess = computed<boolean>(() => {
   if (props.target === undefined) return false
   const compareType = props.compareType || 'higher'
-  
+
   if (compareType === 'under') {
     return total.value <= props.target
   } else {

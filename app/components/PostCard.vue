@@ -9,7 +9,7 @@
         }) }}</time>
         <span class="title">
           {{ post.title }}
-          <span class="ttrpg" v-if="post.ttrpg">({{ post.ttrpg }})</span>
+          <span v-if="post.ttrpg" class="ttrpg">({{ post.ttrpg }})</span>
         </span>
       </NuxtLink>
     </li>
