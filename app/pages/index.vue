@@ -34,16 +34,26 @@ useSeoMeta({
 </script>
 
 <template>
-  <h1>All about Wiktoria's Secret</h1>
+  <div class="item">
+    <h1>All about Wiktoria's Secret</h1>
 
-  <section class="card">
-    <h2>My recent TTRPG adventures</h2>
+    <Aside mobile />
 
-    <PostCard :posts="(adventures || []) as Adventure[]" />
-  </section>
+    <section class="card">
+      <h2>My recent TTRPG adventures</h2>
+
+      <PostCard :posts="(adventures || []) as Adventure[]" />
+    </section>
+  </div>
+
+  <Aside />
 </template>
 
 <style scoped>
+.item {
+  flex: 1;
+}
+
 h1 {
   margin-bottom: 1rem;
 }

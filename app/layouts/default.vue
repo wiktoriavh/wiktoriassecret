@@ -1,13 +1,11 @@
 <template>
   <Header />
 
-  <div class="container">
-    <main>
+  <div>
+    <main class="container">
       <!-- page content -->
       <slot />
     </main>
-
-    <Aside />
   </div>
 
   <Footer />
@@ -22,5 +20,6 @@ main {
   display: flex;
   flex-direction: row;
   gap: 2rem;
+  width: 100%;
 }
 </style>
