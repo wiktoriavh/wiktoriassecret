@@ -1,5 +1,5 @@
 <template>
-  <aside class="card">
+  <aside :class="{ 'card': true, 'mobile': mobile }">
     <DirectorySpan>
       /README.md
     </DirectorySpan>
@@ -22,6 +22,12 @@
   </aside>
 </template>
 
+<script setup lang="ts">
+defineProps<{
+  mobile?: boolean;
+}>();
+</script>
+
 <style scoped>
 aside {
   display: flex;
@@ -29,6 +35,34 @@ aside {
   width: 300px;
   gap: 1rem;
   transform: rotate(-.5deg);
+}
+
+.mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  aside.mobile {
+    display: flex;
+    width: 100%;
+    margin-bottom: 2rem;
+    position: relative;
+  }
+
+  aside.mobile img {
+
+    top: 1rem;
+    right: 2rem;
+  }
+
+  aside.mobile .me {
+    text-align: left;
+    justify-content: space-between;
+  }
+
+  aside {
+    display: none;
+  }
 }
 
 .readme {
