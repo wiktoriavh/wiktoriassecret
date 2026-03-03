@@ -26,10 +26,12 @@ if (page.value) {
 </script>
 
 <template>
-  <h1>{{ page?.title }}</h1>
-  <div class="card">
-    <MetaNote :note="metaNote" />
-    <ContentRenderer class="content" :value="page" />
+  <div class="item">
+    <h1>{{ page?.title }}</h1>
+    <div class="card">
+      <MetaNote :note="metaNote" />
+      <ContentRenderer class="content" :value="page" />
+    </div>
   </div>
 </template>
 
