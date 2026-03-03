@@ -5,7 +5,7 @@
     </DirectorySpan>
     <div class="me">
       <h2>Hi there, I'm Wiktoria</h2>
-      <img src="https://placecats.com/100/100" alt="Wiktoria" />
+      <img src="https://placecats.com/100/100" alt="Wiktoria" >
     </div>
     <p>I'm a software engineer and recently (like 2025) I started to become more interested in owning my own content. I
       am collecting vinyls from music that I enjoy, started buying digital music, and want to buy physical movies and
