@@ -54,10 +54,6 @@ useSeoMeta({
   flex: 1;
 }
 
-h1 {
-  margin-bottom: 1rem;
-}
-
 section {
   display: flex;
   flex-direction: column;

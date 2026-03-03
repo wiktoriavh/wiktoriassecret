@@ -16,8 +16,7 @@ defineProps<{
 </template>
 
 <style scoped>
-.meta-note > p{
+.meta-note>p {
   font-size: 1rem;
-  color: #666;
 }
 </style>

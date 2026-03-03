@@ -36,13 +36,19 @@ a:hover {
   text-underline-offset: 0.2em;
 }
 
-h1,
 h2,
 h3,
 h4,
 h5,
 h6 {
   font-size: 1.5rem;
+}
+
+h1 {
+  text-align: center;
+  transform: rotate(1deg);
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
 }
 
 .card {
