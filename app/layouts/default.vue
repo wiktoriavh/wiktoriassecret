@@ -1,25 +1,15 @@
 <template>
   <Header />
 
-  <div>
-    <main class="container">
-      <!-- page content -->
-      <slot />
-    </main>
+  <div class="layout-wrapper">
+    <slot />
   </div>
 
   <Footer />
 </template>
 
 <style scoped>
-main {
+.layout-wrapper {
   flex: 1;
-}
-
-.container {
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-  width: 100%;
 }
 </style>

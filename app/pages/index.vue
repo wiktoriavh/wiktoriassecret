@@ -34,22 +34,68 @@ useSeoMeta({
 </script>
 
 <template>
-  <div class="item">
-    <h1>All about Wiktoria's Secret</h1>
+  <div class="grid-container">
+    <main class="main-content">
+      <div class="item">
+        <h1>All about Wiktoria's Secret</h1>
 
-    <Aside mobile />
+        <section class="card">
+          <h2>My recent TTRPG adventures</h2>
 
-    <section class="card">
-      <h2>My recent TTRPG adventures</h2>
+          <PostCard :posts="(adventures || []) as Adventure[]" />
+        </section>
+      </div>
+    </main>
 
-      <PostCard :posts="(adventures || []) as Adventure[]" />
-    </section>
+
+    <Aside class="aside-content" />
+
   </div>
-
-  <Aside />
 </template>
 
 <style scoped>
+.grid-container {
+  display: grid;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Desktop layout: 2 columns, 1 row */
+@media (min-width: 769px) {
+  .grid-container {
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "main aside";
+  }
+
+  .main-content {
+    grid-area: main;
+  }
+
+  .aside-content {
+    grid-area: aside;
+  }
+}
+
+/* Mobile layout: 1 column, 2 rows (aside first, then main) */
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "aside"
+      "main";
+  }
+
+  .main-content {
+    grid-area: main;
+  }
+
+  .aside-content {
+    grid-area: aside;
+  }
+}
+
 .item {
   flex: 1;
 }
