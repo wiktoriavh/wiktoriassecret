@@ -63,7 +63,7 @@ useSeoMeta({
 /* Desktop layout: 2 columns, 1 row */
 @media (min-width: 769px) {
   .grid-container {
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 4fr 1fr;
     grid-template-rows: 1fr;
     grid-template-areas: "main aside";
   }
