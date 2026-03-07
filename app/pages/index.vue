@@ -22,6 +22,9 @@ const { data: bookmarks } = await useAsyncData('bookmarks', async () => {
     }))
 })
 
+const adventuresRotation = useState('adventures-rotation', () => randomRotation())
+const bookmarksRotation = useState('bookmarks-rotation', () => randomRotation())
+
 useSeoMeta({
   title: "Wiktoria's Secret",
   description: "All about Wiktoria's Secret"
@@ -34,7 +37,7 @@ useSeoMeta({
       <div class="item">
         <h1>All about Wiktoria's Secret</h1>
 
-        <section class="card" :style="{ transform: `rotate(${randomRotation()}deg)` }">
+        <section class="card" :style="{ transform: `rotate(${adventuresRotation}deg)` }">
           <h2>My recent TTRPG adventures</h2>
 
           <PostCard :posts="(adventures || [])">
@@ -45,7 +48,7 @@ useSeoMeta({
           </PostCard>
         </section>
 
-        <section class="card" :style="{ transform: `rotate(${randomRotation()}deg)` }">
+        <section class="card" :style="{ transform: `rotate(${bookmarksRotation}deg)` }">
           <h2>My favourite sites</h2>
 
           <PostCard :posts="(bookmarks || [])">

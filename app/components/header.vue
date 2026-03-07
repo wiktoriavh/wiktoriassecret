@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { randomRotation } from '~/utils/randomRotation';
 
-const links = [
+const links = useState('header-links', () => [
   { name: 'Home', to: '/', rotation: randomRotation() },
   { name: 'TTRPG Actual Plays', to: '/ttrpg-actual-plays', rotation: randomRotation() },
   { name: 'Bookmarks', to: '/bookmarks', rotation: randomRotation() }
-]
+])
 </script>
 
 <template>
