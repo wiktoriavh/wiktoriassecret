@@ -1,15 +1,16 @@
 <template>
   <ul>
     <li v-for="post in posts" :key="post.id">
-      <NuxtLink :to="post.path" class="post-card">
+      <NuxtLink :to="post.url" class="post-card">
         <time :datetime="post.date">{{ new Date(post.date).toLocaleDateString(undefined, {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
         }) }}</time>
         <span class="title">
-          {{ post.title }}
-          <span v-if="post.ttrpg" class="ttrpg">({{ post.ttrpg }})</span>
+          <slot name="title" :post="post">
+            {{ post.title }}
+          </slot>
         </span>
       </NuxtLink>
     </li>
@@ -18,11 +19,11 @@
 
 <script setup lang="ts">
 type Post = {
+  id: string;
   title: string;
   date: string;
-  ttrpg?: string;
-  path: string;
-  id: string;
+  url: string;
+  [key: string]: any;
 }
 defineProps<{
   posts: Post[];

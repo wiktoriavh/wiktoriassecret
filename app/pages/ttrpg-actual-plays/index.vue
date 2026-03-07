@@ -10,19 +10,9 @@ const { data: adventures } = await useAsyncData('adventures', async () => {
     }))
 })
 
-const { data: bookmarks } = await useAsyncData('bookmarks', async () => {
-  return (await queryCollection('bookmarks').order('date', 'DESC').all())
-    .map(item => ({
-      id: item.id,
-      title: item.title,
-      date: item.date,
-      url: item.path
-    }))
-})
-
 useSeoMeta({
-  title: "Wiktoria's Secret",
-  description: "All about Wiktoria's Secret"
+  title: 'TTRPG Actual Plays',
+  description: 'All my TTRPG adventures and stories'
 })
 </script>
 
@@ -30,11 +20,9 @@ useSeoMeta({
   <div class="grid-container">
     <main class="main-content">
       <div class="item">
-        <h1>All about Wiktoria's Secret</h1>
+        <h1>TTRPG Actual Plays</h1>
 
-        <section class="card adventures-section">
-          <h2>My recent TTRPG adventures</h2>
-
+        <section class="card">
           <PostCard :posts="(adventures || [])">
             <template #title="{ post }">
               {{ post.title }}
@@ -42,23 +30,10 @@ useSeoMeta({
             </template>
           </PostCard>
         </section>
-
-        <section class="card bookmarks-section">
-          <h2>My favourite sites</h2>
-
-          <PostCard :posts="(bookmarks || [])">
-            <template #title="{ post }">
-              {{ post.title }}
-
-            </template>
-          </PostCard>
-        </section>
       </div>
     </main>
 
-
     <Aside class="aside-content" />
-
   </div>
 </template>
 
@@ -69,7 +44,6 @@ useSeoMeta({
   width: 100%;
 }
 
-/* Desktop layout: 2 columns, 1 row */
 @media (min-width: 769px) {
   .grid-container {
     grid-template-columns: 4fr 1fr;
@@ -86,7 +60,6 @@ useSeoMeta({
   }
 }
 
-/* Mobile layout: 1 column, 2 rows (aside first, then main) */
 @media (max-width: 768px) {
   .grid-container {
     grid-template-columns: 1fr;
@@ -106,7 +79,6 @@ useSeoMeta({
 }
 
 .item {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -116,14 +88,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-
-.adventures-section {
-  transform: rotate(0.28deg);
-}
-
-.bookmarks-section {
-  transform: rotate(-0.32deg);
+  transform: rotate(0.3deg);
 }
 
 h2 {

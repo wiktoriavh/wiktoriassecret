@@ -28,6 +28,9 @@ aside {
   flex-direction: column;
   gap: 1rem;
   transform: rotate(-.5deg);
+  position: sticky;
+  top: 2rem;
+  align-self: flex-start;
 }
 
 @media (max-width: 768px) {

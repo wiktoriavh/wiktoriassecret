@@ -11,6 +11,10 @@
   padding: 0;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 html,
 body {
   font-family: sans-serif;
