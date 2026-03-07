@@ -24,7 +24,7 @@ useSeoMeta({
         <section class="card">
           <PostCard :posts="(bookmarks || [])">
             <template #title="{ post }">
-              {{ post.title }} ⤴
+              {{ post.title }}
             </template>
           </PostCard>
         </section>

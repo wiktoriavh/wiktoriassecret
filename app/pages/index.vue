@@ -48,7 +48,7 @@ useSeoMeta({
 
           <PostCard :posts="(bookmarks || [])">
             <template #title="{ post }">
-              {{ post.title }} ⤴
+              {{ post.title }}
 
             </template>
           </PostCard>

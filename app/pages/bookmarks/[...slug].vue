@@ -125,4 +125,18 @@ if (page.value) {
   gap: 1.5ch;
   font-size: 1.2rem;
 }
+
+.content :deep(a) {
+  color: black;
+  text-decoration: none;
+}
+
+.content :deep(a:hover) {
+  text-decoration: underline wavy;
+  text-underline-offset: 0.2em;
+}
+
+.content :deep(a:hover::after) {
+  content: ' #';
+}
 </style>
