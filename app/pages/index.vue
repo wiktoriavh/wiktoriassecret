@@ -8,11 +8,9 @@ type Adventure = {
 }
 
 const { data: adventures } = await useAsyncData('adventures', async () => {
-  const items = await queryCollection('content').all()
+  const items = await queryCollection('adventures').all()
 
-  // Filter for adventures and sort by date (newest first)
   return items
-    .filter(item => item.path?.startsWith('/adventures/') && item.stem !== 'index')
     .sort((a, b) => {
       const dateA = a.date ? new Date(a.date).getTime() : 0
       const dateB = b.date ? new Date(b.date).getTime() : 0
