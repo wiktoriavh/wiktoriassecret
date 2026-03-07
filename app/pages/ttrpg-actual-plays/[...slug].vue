@@ -44,4 +44,10 @@ if (page.value) {
   gap: 1.5ch;
   font-size: 1.2rem;
 }
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 </style>

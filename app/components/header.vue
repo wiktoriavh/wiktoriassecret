@@ -1,7 +1,10 @@
 <script setup lang="ts">
+import { randomRotation } from '~/utils/randomRotation';
+
 const links = [
-  { name: 'Home', to: '/', rotation: Math.random() - 0.5 },
-  { name: 'TTRPG Actual Plays', to: '/ttrpg-actual-plays', rotation: Math.random() - 0.5 }
+  { name: 'Home', to: '/', rotation: randomRotation() },
+  { name: 'TTRPG Actual Plays', to: '/ttrpg-actual-plays', rotation: randomRotation() },
+  { name: 'Bookmarks', to: '/bookmarks', rotation: randomRotation() }
 ]
 </script>
 

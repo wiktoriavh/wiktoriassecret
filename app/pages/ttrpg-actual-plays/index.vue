@@ -46,7 +46,7 @@ useSeoMeta({
 
 h1 {
   font-size: 2.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .adventures-list {

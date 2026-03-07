@@ -1,30 +1,11 @@
 <script setup lang="ts">
-import { randomRotation } from '~/utils/randomRotation';
-
-const { data: adventures } = await useAsyncData('adventures', async () => {
-  return (await queryCollection('ttrpgActualPlays').order('date', 'DESC').all())
-    .map(item => ({
-      id: item.id,
-      title: item.title,
-      date: item.date,
-      ttrpg: item.ttrpg,
-      url: item.path
-    }))
-})
-
 const { data: bookmarks } = await useAsyncData('bookmarks', async () => {
-  return (await queryCollection('bookmarks').order('date', 'DESC').all())
-    .map(item => ({
-      id: item.id,
-      title: item.title,
-      date: item.date,
-      url: item.url
-    }))
+  return queryCollection('bookmarks').order('date', 'DESC').all()
 })
 
 useSeoMeta({
-  title: "Wiktoria's Secret",
-  description: "All about Wiktoria's Secret"
+  title: "Wiktoria's Bookmarks",
+  description: 'A collection of my favourite sites on the internet'
 })
 </script>
 
@@ -32,27 +13,10 @@ useSeoMeta({
   <div class="grid-container">
     <main class="main-content">
       <div class="item">
-        <h1>All about Wiktoria's Secret</h1>
+        <h1>My favourite sites</h1>
 
-        <section class="card" :style="{ transform: `rotate(${randomRotation()}deg)` }">
-          <h2>My recent TTRPG adventures</h2>
-
-          <PostCard :posts="(adventures || [])">
-            <template #title="{ post }">
-              {{ post.title }}
-              <span v-if="post.ttrpg" class="ttrpg">({{ post.ttrpg }})</span>
-            </template>
-          </PostCard>
-        </section>
-
-        <section class="card" :style="{ transform: `rotate(${randomRotation()}deg)` }">
-          <h2>My favourite sites</h2>
-
-          <PostCard :posts="(bookmarks || [])">
-            <template #title="{ post }">
-              {{ post.title }}
-            </template>
-          </PostCard>
+        <section class="card">
+          <PostCard :posts="(bookmarks || [])" />
         </section>
       </div>
     </main>
@@ -107,7 +71,6 @@ useSeoMeta({
 }
 
 .item {
-  flex: 1;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -117,6 +80,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  transform: rotate(.3deg);
 }
 
 h2 {
@@ -146,10 +110,5 @@ h2 {
   color: black;
   font-weight: normal;
   text-decoration: none;
-}
-
-.ttrpg {
-  font-size: 0.9em;
-  margin-left: .25em;
 }
 </style>

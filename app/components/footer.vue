@@ -1,6 +1,7 @@
 <script setup lang="ts">
 const links = [
   { name: 'TTRPG Actual Plays', to: '/ttrpg-actual-plays' },
+  { name: 'Bookmarks', to: '/bookmarks' },
 ]
 </script>
 
