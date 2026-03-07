@@ -1,6 +1,12 @@
 <script setup lang="ts">
 const { data: bookmarks } = await useAsyncData('bookmarks', async () => {
-  return queryCollection('bookmarks').order('date', 'DESC').all()
+  return (await queryCollection('bookmarks').order('date', 'DESC').all())
+    .map(item => ({
+      id: item.id,
+      title: item.title,
+      date: item.date,
+      url: item.path
+    }))
 })
 
 useSeoMeta({
@@ -84,7 +90,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  transform: rotate(.3deg);
+  transform: rotate(-0.25deg);
 }
 
 h2 {

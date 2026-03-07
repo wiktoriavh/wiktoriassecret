@@ -16,7 +16,7 @@ const { data: bookmarks } = await useAsyncData('bookmarks', async () => {
       id: item.id,
       title: item.title,
       date: item.date,
-      url: item.url
+      url: item.path
     }))
 })
 
