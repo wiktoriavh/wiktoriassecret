@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { randomRotation } from '~/utils/randomRotation';
-
-const links = useState('header-links', () => [
-  { name: 'Home', to: '/', rotation: randomRotation() },
-  { name: 'TTRPG Actual Plays', to: '/ttrpg-actual-plays', rotation: randomRotation() },
-  { name: 'Bookmarks', to: '/bookmarks', rotation: randomRotation() }
-])
+const links = [
+  { name: 'Home', to: '/' },
+  { name: 'TTRPG Actual Plays', to: '/ttrpg-actual-plays' },
+  { name: 'Bookmarks', to: '/bookmarks' }
+]
 </script>
 
 <template>
   <header class="navigation">
-    <NuxtLink v-for="link in links" :key="link.to" :to="link.to" :style="{ transform: `rotate(${link.rotation}deg)` }">
+    <NuxtLink v-for="link in links" :key="link.to" :to="link.to">
       {{ link.name }}</NuxtLink>
   </header>
 </template>
@@ -34,6 +32,18 @@ const links = useState('header-links', () => [
   background-color: #fcf8f0;
   color: #280905;
   font-weight: 700;
+}
+
+.navigation a:nth-child(1) {
+  transform: rotate(-0.3deg);
+}
+
+.navigation a:nth-child(2) {
+  transform: rotate(0.25deg);
+}
+
+.navigation a:nth-child(3) {
+  transform: rotate(-0.15deg);
 }
 
 .navigation a:hover {

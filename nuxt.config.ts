@@ -31,7 +31,13 @@ export default defineNuxtConfig({
       dir: 'dist'
     },
     prerender: {
-      autoSubfolderIndex: false
+      autoSubfolderIndex: false,
+      crawlLinks: true,
+      routes: [
+        '/',
+        '/ttrpg-actual-plays',
+        '/bookmarks'
+      ]
     }
   }
 })
