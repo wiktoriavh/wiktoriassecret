@@ -16,7 +16,11 @@ useSeoMeta({
         <h1>My favourite sites</h1>
 
         <section class="card">
-          <PostCard :posts="(bookmarks || [])" />
+          <PostCard :posts="(bookmarks || [])">
+            <template #title="{ post }">
+              {{ post.title }} ⤴
+            </template>
+          </PostCard>
         </section>
       </div>
     </main>
