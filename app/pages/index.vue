@@ -8,21 +8,7 @@ type Adventure = {
 }
 
 const { data: adventures } = await useAsyncData('adventures', async () => {
-  const items = await queryCollection('adventures').all()
-
-  return items
-    .sort((a, b) => {
-      const dateA = a.date ? new Date(a.date).getTime() : 0
-      const dateB = b.date ? new Date(b.date).getTime() : 0
-      return dateB - dateA
-    })
-    .map(item => ({
-      id: item.id,
-      title: item.title,
-      date: item.date,
-      ttrpg: item.ttrpg,
-      path: item.path
-    }))
+  return queryCollection('adventures').order('date', 'DESC').all()
 })
 
 useSeoMeta({
