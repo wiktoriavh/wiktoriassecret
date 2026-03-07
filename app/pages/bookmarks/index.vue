@@ -19,7 +19,7 @@ useSeoMeta({
   <div class="grid-container">
     <main class="main-content">
       <div class="item">
-        <h1>My favourite sites</h1>
+        <h1>My Favourite Sites</h1>
 
         <section class="card">
           <PostCard :posts="(bookmarks || [])">
@@ -90,7 +90,7 @@ section {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  transform: rotate(-0.25deg);
+  transform: rotate(0.3deg);
 }
 
 h2 {
