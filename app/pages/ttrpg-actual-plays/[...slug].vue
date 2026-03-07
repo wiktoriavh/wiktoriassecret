@@ -2,7 +2,7 @@
 const route = useRoute()
 
 const { data: page, error } = await useAsyncData(route.path, () => {
-  return queryCollection('adventures').path(route.path).first();
+  return queryCollection('ttrpgActualPlays').path(route.path).first();
 });
 
 const metaNote = computed(() => {

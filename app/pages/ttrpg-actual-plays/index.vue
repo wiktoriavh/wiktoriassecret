@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { data: adventures } = await useAsyncData('adventures', async () => {
-  return queryCollection('adventures').order('date', 'DESC').all()
+  return queryCollection('ttrpgActualPlays').order('date', 'DESC').all()
 })
 
 useSeoMeta({

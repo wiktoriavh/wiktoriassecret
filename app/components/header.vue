@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const links = [
   { name: 'Home', to: '/', rotation: Math.random() - 0.5 },
-  { name: 'Adventures', to: '/adventures', rotation: Math.random() - 0.5 }
+  { name: 'TTRPG Actual Plays', to: '/ttrpg-actual-plays', rotation: Math.random() - 0.5 }
 ]
 </script>
 
