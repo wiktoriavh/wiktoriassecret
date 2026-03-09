@@ -33,7 +33,13 @@ aside {
   align-self: flex-start;
 }
 
+
+
 @media (max-width: 768px) {
+  aside {
+    position: static;
+  }
+
   aside .me {
     text-align: left;
     justify-content: space-between;
