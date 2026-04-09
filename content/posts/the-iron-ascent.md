@@ -2,6 +2,8 @@
 title: The Iron Ascent
 description: Trapped in an endless loop, a warrior climbs through rooms of monsters and ruins. Each failure transforms more flesh to iron.
 date: 2025-11-20
+tags:
+  - ttrpg
 ttrpg: ironbound
 link: https://marrensmusings.itch.io/ironbound
 ---
@@ -84,6 +86,6 @@ The third room, another Shabby Empty Room, holds nothing but an Obsidian Golem. 
 
 Already exhausted, I go into a Shabby Alchemy Lab, with a Crystal Chimera. Why are there so many Chimeras here? We clash, but ultimately my longsword managed to kill it off.
 
-I feel pain everywhere on my body. I go to the fourth room, a Grand Alchemy Lab this time. And a Elemental Slime hiding between the floor boards. I pierce it through the boards and it dissolves.
+I feel pain everywhere on my body. I go into the fourth room, a Grand Alchemy Lab this time. And a Elemental Slime hiding between the floor boards. I pierce it through the boards and it dissolves.
 
 As I walk into the fifth room, a Maintained Puppet Workshop, and a Marble Goblin building a puppet, I rush toward it, but the Goblin had weapons at hand to thro at me, and then I see my bars of my prison cell, all my limbs consumed by iron and my head starting to feel heavier and heavier. I look into a puddle, and I see my head turn into iron before everything turns dark and--

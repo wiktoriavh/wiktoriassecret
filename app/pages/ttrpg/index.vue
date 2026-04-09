@@ -1,14 +1,17 @@
 <script setup lang="ts">
-const { data: adventures } = await useAsyncData('adventures', async () => {
-  return (await queryCollection('ttrpg').order('date', 'DESC').all())
-    .map(item => ({
-      id: item.id,
-      title: item.title,
-      date: item.date,
-      ttrpg: item.ttrpg,
-      url: item.path
-    }))
-})
+const { data: allPosts } = await useAsyncData('all-posts-ttrpg-index', () =>
+  queryCollection('posts').order('date', 'DESC').all()
+)
+
+const adventures = computed(() =>
+  postsWithTag(allPosts.value ?? [], 'ttrpg').map(item => ({
+    id: item.id,
+    title: item.title,
+    date: item.date,
+    ttrpg: item.ttrpg,
+    url: item.path
+  }))
+)
 
 useSeoMeta({
   title: 'TTRPG',
@@ -23,7 +26,7 @@ useSeoMeta({
         <h1>TTRPG</h1>
 
         <section class="card">
-          <PostCard :posts="(adventures || [])">
+          <PostCard :posts="adventures">
             <template #title="{ post }">
               {{ post.title }}
               <span v-if="post.ttrpg" class="ttrpg">({{ post.ttrpg }})</span>

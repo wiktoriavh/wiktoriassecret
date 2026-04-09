@@ -2,6 +2,8 @@
 title: Testing
 description: Testing
 date: 2025-11-20
+tags:
+  - ttrpg
 ttrpg: testing
 link: https://testing.com
 ---

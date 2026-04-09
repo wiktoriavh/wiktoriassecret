@@ -2,6 +2,8 @@
 title: Snake Run
 link: https://snake.eieio.games/
 date: 2026-03-09
+tags:
+  - bookmark
 ---
 
 ## SSH - Secure Snake Home
@@ -26,6 +28,7 @@ by eieio.games                                                                  
                    │                                                                                │
                    │                                                                                │
                    │                                                                                │
+                   │                                                                                │
                    │        ▀                                                                       │
                    │                              ▄▄▄▄▄▄▄▄▄▄▄                                       │
                    │                                             ▄                                  │
@@ -33,9 +36,7 @@ by eieio.games                                                                  
                    │                                                                                │
                    │                                                                                │
                    │                                                                                │
-                   │                                                                                │
                    │       ▀                                                                        │
-                   │                                                                                │
                    │                                                                                │
                    │                                                                                │
                    └────────────────────────────────────────────────────────────────────────────────┘

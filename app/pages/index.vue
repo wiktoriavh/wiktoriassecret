@@ -1,24 +1,26 @@
 <script setup lang="ts">
-const { data: adventures } = await useAsyncData('adventures', async () => {
-  return (await queryCollection('ttrpg').order('date', 'DESC').all())
-    .map(item => ({
-      id: item.id,
-      title: item.title,
-      date: item.date,
-      ttrpg: item.ttrpg,
-      url: item.path
-    }))
-})
+const { data: allPosts } = await useAsyncData('all-posts', () =>
+  queryCollection('posts').order('date', 'DESC').all()
+)
 
-const { data: bookmarks } = await useAsyncData('bookmarks', async () => {
-  return (await queryCollection('bookmarks').order('date', 'DESC').all())
-    .map(item => ({
-      id: item.id,
-      title: item.title,
-      date: item.date,
-      url: item.path
-    }))
-})
+const adventures = computed(() =>
+  postsWithTag(allPosts.value ?? [], 'ttrpg').map(item => ({
+    id: item.id,
+    title: item.title,
+    date: item.date,
+    ttrpg: item.ttrpg,
+    url: item.path
+  }))
+)
+
+const bookmarks = computed(() =>
+  postsWithTag(allPosts.value ?? [], 'bookmark').map(item => ({
+    id: item.id,
+    title: item.title,
+    date: item.date,
+    url: item.path
+  }))
+)
 
 useSeoMeta({
   title: "Wiktoria's Secret",
@@ -35,7 +37,7 @@ useSeoMeta({
         <section class="card adventures-section">
           <h2>My recent TTRPG adventures</h2>
 
-          <PostCard :posts="(adventures || [])">
+          <PostCard :posts="adventures">
             <template #title="{ post }">
               {{ post.title }}
               <span v-if="post.ttrpg" class="ttrpg">({{ post.ttrpg }})</span>
@@ -46,7 +48,7 @@ useSeoMeta({
         <section class="card bookmarks-section">
           <h2>My favourite sites</h2>
 
-          <PostCard :posts="(bookmarks || [])">
+          <PostCard :posts="bookmarks">
             <template #title="{ post }">
               {{ post.title }}
 

@@ -2,17 +2,25 @@
 const route = useRoute()
 
 const { data: page, error } = await useAsyncData(route.path, () => {
-  return queryCollection('ttrpg').path(route.path).first();
-});
+  return queryCollection('posts').path(route.path).first()
+})
 
 if (error.value || !page.value) {
   throw createError({ statusCode: 404, statusMessage: 'Page not found' })
 }
 
+const tags = computed(() => page.value?.tags ?? [])
+const isTtrpg = computed(() => tags.value.includes('ttrpg'))
+const isBookmark = computed(() => tags.value.includes('bookmark'))
+
 if (page.value) {
   useSeoMeta({
-    title: page.value.title || 'Page',
-    description: page.value.description || ''
+    title: page.value.title || 'Post',
+    description:
+      page.value.description
+      || (isBookmark.value && page.value.date
+        ? `A bookmark saved on ${page.value.date}`
+        : '')
   })
 }
 </script>
@@ -28,18 +36,27 @@ if (page.value) {
               {{ page.description }}
             </p>
             <time v-if="page?.date" :datetime="page.date" class="date">
-              {{ new Date(page.date).toLocaleDateString(undefined, {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              }) }}
+              {{
+                isBookmark
+                  ? 'Found: '
+                  : ''
+              }}{{
+                new Date(page.date).toLocaleDateString(undefined, {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })
+              }}
             </time>
-            <p v-if="page?.ttrpg" class="ttrpg-info">
+            <p v-if="isTtrpg && page?.ttrpg" class="ttrpg-info">
               Systems:
               <span v-if="page.link">
                 <a :href="page.link" target="_blank" rel="noopener noreferrer">{{ page.ttrpg }}</a>
               </span>
               <span v-else>{{ page.ttrpg }}</span>
+            </p>
+            <p v-if="isBookmark && page?.link" class="url">
+              <a :href="page.link" target="_blank" rel="noopener noreferrer">Visit site →</a>
             </p>
           </div>
           <ContentRenderer class="content" :value="page" />
@@ -129,6 +146,17 @@ if (page.value) {
 }
 
 .ttrpg-info a:hover {
+  text-decoration: underline wavy;
+  text-underline-offset: 0.2em;
+}
+
+.url a {
+  color: #280905;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.url a:hover {
   text-decoration: underline wavy;
   text-underline-offset: 0.2em;
 }
