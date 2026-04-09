@@ -1,13 +1,16 @@
 <script setup lang="ts">
-const { data: bookmarks } = await useAsyncData('bookmarks', async () => {
-  return (await queryCollection('bookmarks').order('date', 'DESC').all())
-    .map(item => ({
-      id: item.id,
-      title: item.title,
-      date: item.date,
-      url: item.path
-    }))
-})
+const { data: allPosts } = await useAsyncData('all-posts-bookmarks-index', () =>
+  queryCollection('posts').order('date', 'DESC').all()
+)
+
+const bookmarks = computed(() =>
+  postsWithTag(allPosts.value ?? [], 'bookmark').map(item => ({
+    id: item.id,
+    title: item.title,
+    date: item.date,
+    url: item.path
+  }))
+)
 
 useSeoMeta({
   title: "Wiktoria's Bookmarks",
@@ -22,7 +25,7 @@ useSeoMeta({
         <h1>My Favourite Sites</h1>
 
         <section class="card">
-          <PostCard :posts="(bookmarks || [])">
+          <PostCard :posts="bookmarks">
             <template #title="{ post }">
               {{ post.title }}
             </template>

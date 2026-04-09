@@ -2,6 +2,8 @@
 title: Feed the Cat
 link: https://feed-the.cat/
 date: 2026-02-27
+tags:
+  - bookmark
 ---
 
 ## Feed the Cat
