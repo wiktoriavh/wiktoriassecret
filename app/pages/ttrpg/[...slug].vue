@@ -2,7 +2,7 @@
 const route = useRoute()
 
 const { data: page, error } = await useAsyncData(route.path, () => {
-  return queryCollection('ttrpgActualPlays').path(route.path).first();
+  return queryCollection('ttrpg').path(route.path).first();
 });
 
 if (error.value || !page.value) {

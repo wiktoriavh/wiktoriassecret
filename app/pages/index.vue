@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { data: adventures } = await useAsyncData('adventures', async () => {
-  return (await queryCollection('ttrpgActualPlays').order('date', 'DESC').all())
+  return (await queryCollection('ttrpg').order('date', 'DESC').all())
     .map(item => ({
       id: item.id,
       title: item.title,
