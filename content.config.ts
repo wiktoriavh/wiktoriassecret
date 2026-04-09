@@ -10,7 +10,7 @@ export default defineContentConfig({
         description: z.string(),
         date: z.string(),
         ttrpg: z.string().optional(),
-        'ttrpg-link': z.string().optional()
+        link: z.string().optional()
       })
     }),
     bookmarks: defineCollection({
@@ -18,7 +18,7 @@ export default defineContentConfig({
       source: 'bookmarks/*.md',
       schema: z.object({
         title: z.string(),
-        url: z.string(),
+        link: z.string(),
         date: z.string()
       })
     })

@@ -1,6 +1,6 @@
 ---
 title: Snake Run
-url: https://snake.eieio.games/
+link: https://snake.eieio.games/
 date: 2026-03-09
 ---
 

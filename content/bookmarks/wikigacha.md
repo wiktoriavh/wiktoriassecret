@@ -1,6 +1,6 @@
 ---
 title: Wikigacha
-url: https://wikigacha.com/
+link: https://wikigacha.com/
 date: 2026-03-07
 ---
 

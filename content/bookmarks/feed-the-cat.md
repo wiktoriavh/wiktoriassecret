@@ -1,6 +1,6 @@
 ---
 title: Feed the Cat
-url: https://feed-the.cat/
+link: https://feed-the.cat/
 date: 2026-02-27
 ---
 
