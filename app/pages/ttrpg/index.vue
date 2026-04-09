@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const { data: adventures } = await useAsyncData('adventures', async () => {
-  return (await queryCollection('ttrpgActualPlays').order('date', 'DESC').all())
+  return (await queryCollection('ttrpg').order('date', 'DESC').all())
     .map(item => ({
       id: item.id,
       title: item.title,
@@ -11,7 +11,7 @@ const { data: adventures } = await useAsyncData('adventures', async () => {
 })
 
 useSeoMeta({
-  title: 'TTRPG Actual Plays',
+  title: 'TTRPG',
   description: 'All my TTRPG adventures and stories'
 })
 </script>
@@ -20,7 +20,7 @@ useSeoMeta({
   <div class="grid-container">
     <main class="main-content">
       <div class="item">
-        <h1>TTRPG Actual Plays</h1>
+        <h1>TTRPG</h1>
 
         <section class="card">
           <PostCard :posts="(adventures || [])">

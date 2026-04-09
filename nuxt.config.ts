@@ -35,7 +35,7 @@ export default defineNuxtConfig({
       crawlLinks: true,
       routes: [
         '/',
-        '/ttrpg-actual-plays',
+        '/ttrpg',
         '/bookmarks'
       ]
     }

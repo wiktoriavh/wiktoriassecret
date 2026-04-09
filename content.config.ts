@@ -2,9 +2,9 @@ import { defineCollection, defineContentConfig, z } from '@nuxt/content'
 
 export default defineContentConfig({
   collections: {
-    ttrpgActualPlays: defineCollection({
+    ttrpg: defineCollection({
       type: 'page',
-      source: 'ttrpg-actual-plays/*.md',
+      source: 'ttrpg/*.md',
       schema: z.object({
         title: z.string(),
         description: z.string(),
