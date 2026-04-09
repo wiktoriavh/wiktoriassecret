@@ -24,8 +24,8 @@ if (page.value) {
         <h1>{{ page?.title }}</h1>
         <div class="card">
           <div class="metadata">
-            <p v-if="page?.url" class="url">
-              <a :href="page.url" target="_blank" rel="noopener noreferrer">Visit site →</a>
+            <p v-if="page?.link" class="url">
+              <a :href="page.link" target="_blank" rel="noopener noreferrer">Visit site →</a>
             </p>
             <time v-if="page?.date" :datetime="page.date" class="date">
               Found: {{ new Date(page.date).toLocaleDateString(undefined, {

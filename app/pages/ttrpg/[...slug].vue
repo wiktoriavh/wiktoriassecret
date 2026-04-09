@@ -36,8 +36,8 @@ if (page.value) {
             </time>
             <p v-if="page?.ttrpg" class="ttrpg-info">
               Systems:
-              <span v-if="page['ttrpg-link']">
-                <a :href="page['ttrpg-link']" target="_blank" rel="noopener noreferrer">{{ page.ttrpg }}</a>
+              <span v-if="page.link">
+                <a :href="page.link" target="_blank" rel="noopener noreferrer">{{ page.ttrpg }}</a>
               </span>
               <span v-else>{{ page.ttrpg }}</span>
             </p>

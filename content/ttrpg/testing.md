@@ -3,7 +3,7 @@ title: Testing
 description: Testing
 date: 2025-11-20
 ttrpg: testing
-ttrpg-link: https://testing.com
+link: https://testing.com
 ---
 
 ::callout-box{type="info" title="Example Components"}
