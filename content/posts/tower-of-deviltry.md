@@ -12,6 +12,8 @@ link: https://ill-gotten-games.itch.io/tower-of-deviltry
 
 These are meant to be printed and played with pen and paper. Or download as an image and use it in a VTT, like Owlbear Rodeo.
 
+The generators are responsive and scale to fit mobile and desktop screens.
+
 ## Accursed
 
 ::TowerAccursedGenerator
