@@ -56,6 +56,11 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.tod-generator {
+  width: 100%;
+  max-width: 100%;
+}
+
 .tod-btn-extra {
   background: #f8f4e8;
   color: #280905;

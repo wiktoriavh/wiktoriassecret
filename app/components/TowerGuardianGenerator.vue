@@ -67,6 +67,11 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.tod-generator {
+  width: 100%;
+  max-width: 100%;
+}
+
 .level-label {
   display: flex;
   flex-direction: column;
