@@ -19,6 +19,8 @@ export type EquipmentOptions = {
 
 export type CruxDie = 4 | 6 | 8 | 10
 
+export const CRUX_DIE_STEPS: CruxDie[] = [4, 6, 8, 10]
+
 export type Attributes = {
   bul: number
   vit: number
@@ -46,6 +48,7 @@ export type ArmorItem = {
   name: string
   res: string
   penalties: string
+  enchantedBonus?: string
 }
 
 export type WeaponItem = {
@@ -56,12 +59,14 @@ export type WeaponItem = {
   range: number | string
   heft: number | string
   hands: number | string
+  enchantedBonus?: string
 }
 
 export type OtherItem = {
   kind: 'other'
   name: string
   effect: string
+  enchantedBonus?: string
 }
 
 export type EquipmentItem = ArmorItem | WeaponItem | OtherItem
@@ -70,11 +75,8 @@ export type CurseBoon = {
   id: number
   name: string
   description: string
-}
-
-export type EnchantedBonus = {
-  item: string
-  bonus: string
+  count: number
+  rolls?: number[]
 }
 
 export type Character = {
@@ -90,7 +92,7 @@ export type Character = {
   exp: number
   curse: number
   curseBoons: CurseBoon[]
-  enchantedItems: EnchantedBonus[]
+  curseHpBonus: number
   strengthLimit: number
   dodge: number
   block: number
@@ -106,7 +108,7 @@ export type TowerLevelMap = {
   cells: TerrainCode[][]
 }
 
-const SKILL_TRAITS: SkillTrait[] = [
+export const SKILL_TRAIT_DEFINITIONS: SkillTrait[] = [
   { id: 1, name: 'BASH', description: 'Move enemy 1 cell on high Smash damage vs BUL.' },
   { id: 2, name: 'DUAL-WIELD', description: 'Free attack each turn with weapon in each hand.' },
   { id: 3, name: 'FERAL STRIKE', description: 'Free unarmed attack each turn.' },
@@ -121,25 +123,47 @@ const SKILL_TRAITS: SkillTrait[] = [
   { id: 12, name: 'WARDANCER', description: 'Move 1 increment before or after an attack.' }
 ]
 
-const CURSE_BOONS: CurseBoon[] = [
-  { id: 1, name: 'Bonus Equipment', description: 'Bonus equipment roll.' },
-  { id: 2, name: 'Hardy', description: 'Increase HP by a CRUX die roll.' },
-  { id: 3, name: 'Mighty', description: '+2 Strength score; raises score limit.' },
-  { id: 4, name: 'Enchanted Item', description: 'Random enchanted item grants +1 bonus.' },
-  { id: 5, name: 'DREAD WHISPERS', description: 'Spend 1 HP: opposed Willpower vs adjacent enemy, move them 1.' },
-  { id: 6, name: 'PROFANE REMEDY', description: 'Spend 2 actions: Medicine test heals HP up to result.' },
-  { id: 7, name: 'SHADOW STEP', description: 'Spend 1 action/HP: move, attack; move through one enemy for advantage.' },
-  { id: 8, name: 'Combined', description: 'Roll twice more and combine (only 2-4 stack).' }
+export const CURSE_BOON_DEFINITIONS: CurseBoon[] = [
+  { id: 1, name: 'Bonus Equipment', description: 'Bonus equipment roll.', count: 1 },
+  { id: 2, name: 'Hardy', description: 'Increase HP by a CRUX die roll.', count: 1 },
+  { id: 3, name: 'Mighty', description: '+2 Strength score; raises score limit (normally 5).', count: 1 },
+  { id: 4, name: 'Enchanted Item', description: 'Random enchanted item grants +1 bonus (attack, damage, RES, et cetera).', count: 1 },
+  { id: 5, name: 'DREAD WHISPERS', description: 'Spend 1 HP at end of turn: opposed Willpower vs adjacent enemy, move them 1 increment if you win.', count: 1 },
+  { id: 6, name: 'PROFANE REMEDY', description: 'Spend 2 actions: Medicine test heals lost HP up to the result.', count: 1 },
+  { id: 7, name: 'SHADOW STEP', description: 'Spend 1 action/HP: move and attack; move through one enemy for advantage.', count: 1 },
+  { id: 8, name: 'Combined', description: 'Roll twice more and combine (only 2–4 stack).', count: 1 }
 ]
 
-const ENCHANTED_BONUSES = [
-  'attack',
-  'damage',
-  'RES',
-  'defense',
-  'Alertness',
-  'Fighting'
-]
+const ENCHANTED_BONUSES_BY_KIND: Record<EquipmentItem['kind'], string[]> = {
+  weapon: ['attack', 'damage'],
+  armor: ['RES'],
+  other: []
+}
+
+function enchantedBonusesForItem(item: EquipmentItem): string[] {
+  if (item.kind === 'weapon' || item.kind === 'armor') {
+    return ENCHANTED_BONUSES_BY_KIND[item.kind]
+  }
+  if (item.name === 'Shield') return ['defense']
+  if (item.name === 'Full Helm' || item.name === 'Helmet') return ['Alertness']
+  return []
+}
+
+function applyEnchantedBonusToCharacter(character: Character, bonus: string): void {
+  if (bonus === 'Alertness') character.skills.alertness++
+  if (bonus === 'Fighting') character.skills.fighting++
+}
+
+function enchantRandomEquipmentItem(character: Character): void {
+  const enchantable = character.equipment.filter(item => enchantedBonusesForItem(item).length > 0)
+  if (enchantable.length === 0) return
+
+  const item = enchantable[roll(enchantable.length) - 1]!
+  const bonuses = enchantedBonusesForItem(item)
+  const bonus = bonuses[roll(bonuses.length) - 1]!
+  item.enchantedBonus = `+1 ${bonus}`
+  applyEnchantedBonusToCharacter(character, bonus)
+}
 
 const NOBLE_NAMES = [
   'Aldric Blackmere',
@@ -214,8 +238,17 @@ const ARMOR_TABLE: Omit<ArmorItem, 'kind'>[] = [
   { name: 'Plate', res: '5', penalties: 'Cut & Pierce +2 / Athletics & SPD -2' }
 ]
 
+const UNARMED_WEAPON: WeaponItem = {
+  kind: 'weapon',
+  name: 'Unarmed',
+  damage: 'd4+BUL-2',
+  types: 'S',
+  range: 0,
+  heft: '-',
+  hands: '-'
+}
+
 const WEAPON_TABLE: Omit<WeaponItem, 'kind'>[] = [
-  { name: 'Unarmed', damage: 'd4+BUL-2', types: 'S', range: 0, heft: '-', hands: '-' },
   { name: 'Axe', damage: 'd10+BUL', types: 'C', range: 1, heft: 3, hands: 1 },
   { name: 'Dagger', damage: 'd4+BUL', types: 'P', range: 0, heft: 1, hands: 1 },
   { name: 'Flail', damage: 'd8+BUL', types: 'S', range: 2, heft: 3, hands: 1 },
@@ -264,6 +297,10 @@ export function skillModifier(
   return skills[skill] + attributes[SKILL_ATTR[skill]]
 }
 
+export function unarmedAttack(): WeaponItem {
+  return { ...UNARMED_WEAPON }
+}
+
 export function defaultEquipmentOptions(): EquipmentOptions {
   return {
     mode: 'random',
@@ -277,7 +314,7 @@ export function rollEquipmentTable(table: EquipmentTable): EquipmentItem {
     return { kind: 'armor', ...item }
   }
   if (table === 'weapon') {
-    const item = WEAPON_TABLE[roll(13) - 1]!
+    const item = WEAPON_TABLE[roll(12) - 1]!
     return { kind: 'weapon', ...item }
   }
   const item = OTHER_TABLE[roll(4) - 1]!
@@ -296,7 +333,7 @@ export function generateEquipment(options: EquipmentOptions): EquipmentItem[] {
 function rollSkillTraits(count: number): SkillTrait[] {
   const traits: SkillTrait[] = []
   while (traits.length < count) {
-    const trait = SKILL_TRAITS[roll(12) - 1]!
+    const trait = SKILL_TRAIT_DEFINITIONS[roll(12) - 1]!
     if (!traits.some(t => t.id === trait.id)) {
       traits.push(trait)
     }
@@ -348,6 +385,10 @@ function computeHp(attributes: Attributes, traits: SkillTrait[]): number {
   return hp
 }
 
+function enchantedDefenseBonus(equipment: EquipmentItem[]): number {
+  return equipment.filter(item => item.enchantedBonus && /\+1 defense/i.test(item.enchantedBonus)).length
+}
+
 function computeDefenseStats(skills: Skills, attributes: Attributes, equipment: EquipmentItem[]) {
   let critProtection = 0
   let blockBonus = 0
@@ -378,86 +419,223 @@ function computeDefenseStats(skills: Skills, attributes: Attributes, equipment: 
 
   return {
     dodge: skillModifier(skills, attributes, 'athletics'),
-    block: skillModifier(skills, attributes, 'fighting') + blockBonus,
+    block: skillModifier(skills, attributes, 'fighting') + blockBonus + enchantedDefenseBonus(equipment),
     critProtection,
     res,
     resByType: { cut, pierce, smash }
   }
 }
 
-function equipmentLabel(item: EquipmentItem): string {
-  if (item.kind === 'armor') return `${item.name} (RES ${item.res})`
-  if (item.kind === 'weapon') return item.name
-  return `${item.name}: ${item.effect}`
+export function resolveCharacterSheetStats(character: Character) {
+  const defense = computeDefenseStats(
+    character.skills,
+    character.attributes,
+    character.equipment
+  )
+
+  return {
+    attributes: character.attributes,
+    skills: character.skills,
+    hpMax: computeHp(character.attributes, character.skillTraits) + (character.curseHpBonus ?? 0),
+    spd: character.spd,
+    strengthLimit: character.strengthLimit,
+    initiative: skillModifier(character.skills, character.attributes, 'alertness'),
+    attack: skillModifier(character.skills, character.attributes, 'fighting'),
+    ...defense
+  }
 }
 
-function applyCurseBoon(
-  boon: CurseBoon,
+export function recomputeCharacterStats(character: Character): void {
+  Object.assign(character, resolveCharacterSheetStats(character))
+}
+
+export function equipmentDisplayLabel(item: EquipmentItem): string {
+  const prefix = item.enchantedBonus ? 'Enchanted ' : ''
+  let label: string
+  if (item.kind === 'armor') label = `${item.name} (RES ${item.res})`
+  else if (item.kind === 'weapon') label = item.name
+  else label = `${item.name}: ${item.effect}`
+  if (item.enchantedBonus) label += ` (${item.enchantedBonus})`
+  return prefix + label
+}
+
+function equipmentLabel(item: EquipmentItem): string {
+  return equipmentDisplayLabel(item)
+}
+
+function rollExplodingCurseTable(diceCount: number): number[] {
+  const results: number[] = []
+  const queue: number[] = Array.from({ length: diceCount }, () => roll(8))
+
+  while (queue.length > 0) {
+    const value = queue.shift()!
+    if (value === 8) {
+      queue.push(roll(8), roll(8))
+    } else {
+      results.push(value)
+    }
+  }
+
+  return results
+}
+
+type RolledCurseBoon = {
+  id: number
+  count: number
+}
+
+function rollCurseBoons(): RolledCurseBoon[] {
+  const primary = roll(8)
+
+  if (primary !== 8) {
+    return [{ id: primary, count: 1 }]
+  }
+
+  const counts = new Map<number, number>()
+  for (const id of rollExplodingCurseTable(2)) {
+    counts.set(id, (counts.get(id) ?? 0) + 1)
+  }
+
+  return Array.from(counts, ([id, count]) => ({ id, count }))
+}
+
+const CURSE_SKILL_IDS = new Set([5, 6, 7])
+const STACKABLE_CURSE_IDS = new Set([2, 3, 4])
+
+export const CURSE_BOON_GRID_SIZE = 6
+
+export function hasSkillTrait(character: Character, traitId: number): boolean {
+  return character.skillTraits.some(trait => trait.id === traitId)
+}
+
+export function getCurseBoon(character: Character, boonId: number): CurseBoon | undefined {
+  return character.curseBoons.find(boon => boon.id === boonId)
+}
+
+export function isStackableCurseBoon(boonId: number): boolean {
+  return boonId >= 1 && boonId <= 4
+}
+
+export function curseBoonTally(count: number): string {
+  if (count < 1) return ''
+
+  const groups: string[] = []
+  let remaining = count
+
+  while (remaining > 0) {
+    const groupSize = Math.min(5, remaining)
+    groups.push('|'.repeat(groupSize))
+    remaining -= groupSize
+  }
+
+  return groups.join(' ')
+}
+
+export function curseBoonName(boon: CurseBoon): string {
+  let label = boon.name
+  if (boon.rolls?.length) {
+    label += ` (${boon.rolls.join(', ')})`
+  }
+  return label
+}
+
+export function curseBoonLabel(boon: CurseBoon): string {
+  const tally = curseBoonTally(boon.count)
+  const name = curseBoonName(boon)
+  return tally ? `${tally} ${name}` : name
+}
+
+function mergeCurseBoonEntry(character: Character, entry: CurseBoon): void {
+  const existing = character.curseBoons.find(b => b.id === entry.id)
+  if (existing) {
+    existing.count += entry.count
+    if (entry.rolls?.length) {
+      existing.rolls = [...(existing.rolls ?? []), ...entry.rolls]
+    }
+  } else {
+    character.curseBoons.push({
+      ...entry,
+      rolls: entry.rolls?.length ? [...entry.rolls] : undefined
+    })
+  }
+}
+
+function mechanicalApplyCount(id: number, count: number): number {
+  if (CURSE_SKILL_IDS.has(id)) return 0
+  if (STACKABLE_CURSE_IDS.has(id)) return count
+  if (id === 1) return Math.min(1, count)
+  return 0
+}
+
+function applyCurseBoonCount(
   character: Character,
-  equipmentOptions: EquipmentOptions
-): void {
-  switch (boon.id) {
+  id: number,
+  count: number
+): CurseBoon {
+  const template = CURSE_BOON_DEFINITIONS.find(b => b.id === id)!
+  const entry: CurseBoon = { ...template, count }
+  const applies = mechanicalApplyCount(id, count)
+
+  switch (id) {
     case 1:
-      character.equipment.push(rollEquipmentTable(EQUIPMENT_TABLES[roll(3) - 1]!))
-      break
-    case 2:
-      character.hpMax += roll(character.cruxDie)
-      break
-    case 3:
-      character.skills.strength += 2
-      character.strengthLimit = 7
-      break
-    case 4: {
-      const item = character.equipment[roll(character.equipment.length) - 1]
-      if (item) {
-        const bonus = ENCHANTED_BONUSES[roll(ENCHANTED_BONUSES.length) - 1]!
-        character.enchantedItems.push({
-          item: equipmentLabel(item),
-          bonus: `+1 ${bonus}`
-        })
+      for (let i = 0; i < applies; i++) {
+        character.equipment.push(rollEquipmentTable(EQUIPMENT_TABLES[roll(3) - 1]!))
       }
       break
+    case 2: {
+      const rolls: number[] = []
+      for (let i = 0; i < applies; i++) {
+        const hpRoll = roll(character.cruxDie)
+        rolls.push(hpRoll)
+        character.curseHpBonus += hpRoll
+      }
+      entry.rolls = rolls
+      break
     }
+    case 3:
+      character.skills.strength += 2 * applies
+      character.strengthLimit = 7
+      break
+    case 4:
+      for (let i = 0; i < applies; i++) {
+        enchantRandomEquipmentItem(character)
+      }
+      break
     default:
       break
   }
+
+  return entry
 }
 
-function rollCurseBoons(): CurseBoon[] {
-  const boons: CurseBoon[] = []
-  const primary = CURSE_BOONS[roll(8) - 1]!
-
-  if (primary.id === 8) {
-    const extra1 = CURSE_BOONS[roll(8) - 1]!
-    const extra2 = CURSE_BOONS[roll(8) - 1]!
-    for (const b of [extra1, extra2]) {
-      if (b.id >= 2 && b.id <= 4) boons.push(b)
-      else if (b.id !== 8) boons.push(b)
-    }
-    if (boons.length === 0) boons.push(CURSE_BOONS[1]!)
-  } else {
-    boons.push(primary)
+function applyRolledCurseBoons(
+  character: Character,
+  rolled: RolledCurseBoon[]
+): void {
+  for (const { id, count } of rolled) {
+    if (id === 8) continue
+    const entry = applyCurseBoonCount(character, id, count)
+    mergeCurseBoonEntry(character, entry)
   }
-
-  return boons
 }
 
-function applyAdvancement(character: Character): void {
+function applyAdvancement(character: Character, equipmentOptions: EquipmentOptions): void {
   const result = roll(6)
   if (result <= 3) {
     const skill = SKILL_KEYS[roll(6) - 1]!
-    if (character.skills[skill] < 5) character.skills[skill]++
+    const limit = skill === 'strength' ? character.strengthLimit : 5
+    if (character.skills[skill] < limit) character.skills[skill]++
   } else if (result <= 5) {
     const existing = new Set(character.skillTraits.map(t => t.id))
-    let trait = SKILL_TRAITS[roll(12) - 1]!
+    let trait = SKILL_TRAIT_DEFINITIONS[roll(12) - 1]!
     let guard = 0
     while (existing.has(trait.id) && guard < 24) {
-      trait = SKILL_TRAITS[roll(12) - 1]!
+      trait = SKILL_TRAIT_DEFINITIONS[roll(12) - 1]!
       guard++
     }
     if (!existing.has(trait.id)) character.skillTraits.push(trait)
   } else {
-    character.curseBoons.push(...rollCurseBoons())
+    applyRolledCurseBoons(character, rollCurseBoons())
   }
 }
 
@@ -499,7 +677,7 @@ export function generateAccursed(
     exp: 0,
     curse: 0,
     curseBoons: [],
-    enchantedItems: [],
+    curseHpBonus: 0,
     strengthLimit: 5,
     ...defense
   }
@@ -517,26 +695,15 @@ export function generateGuardian(
   character.cruxDie = cruxDie
 
   for (let i = 0; i < advancements; i++) {
-    applyAdvancement(character)
+    applyAdvancement(character, equipmentOptions)
   }
 
   if (hasTrait(character.skillTraits, 4)) {
     // hidden strength already applied during accursed gen
   }
 
-  const boons = rollCurseBoons()
-  for (const boon of boons) {
-    if (boon.id >= 5) {
-      character.curseBoons.push(boon)
-    } else {
-      applyCurseBoon(boon, character, equipmentOptions)
-      if (boon.id === 4) character.curseBoons.push(boon)
-    }
-  }
-
-  const defense = computeDefenseStats(character.skills, character.attributes, character.equipment)
-  Object.assign(character, defense)
-  character.hpMax = computeHp(character.attributes, character.skillTraits)
+  applyRolledCurseBoons(character, rollCurseBoons())
+  recomputeCharacterStats(character)
 
   return character
 }
