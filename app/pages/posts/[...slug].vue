@@ -183,4 +183,10 @@ if (page.value) {
 .content :deep(a:hover::after) {
   content: ' #';
 }
+
+.content :deep(.tod-generator) {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
 </style>
