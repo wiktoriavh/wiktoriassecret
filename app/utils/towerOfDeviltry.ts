@@ -12,21 +12,21 @@ export type EquipmentTable = 'armor' | 'weapon' | 'other'
 
 export type EquipmentMode = 'random' | 'manual'
 
-export interface EquipmentOptions {
+export type EquipmentOptions = {
   mode: EquipmentMode
   rolls: [EquipmentTable, EquipmentTable, EquipmentTable]
 }
 
 export type CruxDie = 4 | 6 | 8 | 10
 
-export interface Attributes {
+export type Attributes = {
   bul: number
   vit: number
   pre: number
   apt: number
 }
 
-export interface Skills {
+export type Skills = {
   alertness: number
   athletics: number
   fighting: number
@@ -35,20 +35,20 @@ export interface Skills {
   willpower: number
 }
 
-export interface SkillTrait {
+export type SkillTrait = {
   id: number
   name: string
   description: string
 }
 
-export interface ArmorItem {
+export type ArmorItem = {
   kind: 'armor'
   name: string
   res: string
   penalties: string
 }
 
-export interface WeaponItem {
+export type WeaponItem = {
   kind: 'weapon'
   name: string
   damage: string
@@ -58,7 +58,7 @@ export interface WeaponItem {
   hands: number | string
 }
 
-export interface OtherItem {
+export type OtherItem = {
   kind: 'other'
   name: string
   effect: string
@@ -66,18 +66,18 @@ export interface OtherItem {
 
 export type EquipmentItem = ArmorItem | WeaponItem | OtherItem
 
-export interface CurseBoon {
+export type CurseBoon = {
   id: number
   name: string
   description: string
 }
 
-export interface EnchantedBonus {
+export type EnchantedBonus = {
   item: string
   bonus: string
 }
 
-export interface Character {
+export type Character = {
   name: string
   attributes: Attributes
   hpMax: number
@@ -101,7 +101,7 @@ export interface Character {
 
 export type TerrainCode = '' | 'C' | 'F' | 'E' | 'P' | 'R' | 'W'
 
-export interface TowerLevelMap {
+export type TowerLevelMap = {
   level: number
   cells: TerrainCode[][]
 }
