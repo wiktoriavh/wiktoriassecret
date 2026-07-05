@@ -1,0 +1,32 @@
+@media print {
+  body > *:not(.nuxt-layout),
+  header,
+  footer,
+  .aside-content,
+  .tod-controls,
+  .tod-disclaimer {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    padding: 0 !important;
+  }
+
+  .grid-container {
+    display: block !important;
+  }
+
+  .main-content .item > h1,
+  .metadata,
+  .content > :not(.tod-generator) {
+    display: none !important;
+  }
+
+  .tod-printable {
+    box-shadow: none !important;
+    margin: 0 !important;
+    page-break-inside: avoid;
+  }
+}

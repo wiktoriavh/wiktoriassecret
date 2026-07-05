@@ -22,6 +22,7 @@
     "@types/parse-path": "^7.1.0",
     "better-sqlite3": "^12.4.5",
     "eslint": "^9.39.1",
+    "html2canvas": "^1.4.1",
     "nuxt": "^4.2.1",
     "vue": "^3.5.24",
     "vue-router": "^4.6.3"
