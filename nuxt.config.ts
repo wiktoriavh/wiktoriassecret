@@ -16,6 +16,14 @@ export default defineNuxtConfig({
     '@nuxt/image'
   ],
 
+  css: ['~/assets/css/tod-print.css'],
+
+  fonts: {
+    families: [
+      { name: 'Cabin Sketch', provider: 'google' }
+    ]
+  },
+
   content: {
     markdown: {
       remarkPlugins: [],
@@ -36,7 +44,8 @@ export default defineNuxtConfig({
       routes: [
         '/',
         '/ttrpg',
-        '/bookmarks'
+        '/bookmarks',
+        '/posts/tower-of-deviltry'
       ]
     }
   }
