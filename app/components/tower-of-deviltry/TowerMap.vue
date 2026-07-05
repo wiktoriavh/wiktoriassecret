@@ -115,4 +115,34 @@ defineProps<{
 .map-legend p {
   margin: 0 0 0.35rem;
 }
+
+@media screen and (max-width: 768px) {
+  .tod-map-sheet {
+    width: 100%;
+    padding: 0.5rem;
+    align-items: stretch;
+  }
+
+  .map-title {
+    font-size: 1rem;
+  }
+
+  .map-grid {
+    width: 100%;
+  }
+
+  .map-cell {
+    width: auto;
+    height: auto;
+    min-width: 0;
+    min-height: 0;
+    aspect-ratio: 1;
+    font-size: clamp(0.55rem, 2.8vw, 0.875rem);
+    padding: 0.1rem;
+  }
+
+  .map-legend {
+    font-size: 0.6rem;
+  }
+}
 </style>

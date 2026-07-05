@@ -85,6 +85,22 @@ defineExpose({ printableRef })
   color: black;
   border-radius: 0.25rem;
   padding: 0;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+  .tod-generator {
+    margin: 1rem 0;
+  }
+
+  .tod-controls {
+    gap: 0.4rem;
+  }
+
+  .tod-btn {
+    flex: 1 1 auto;
+    min-width: calc(50% - 0.25rem);
+  }
 }
 
 .tod-disclaimer {

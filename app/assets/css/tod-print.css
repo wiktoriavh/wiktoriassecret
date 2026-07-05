@@ -24,3 +24,20 @@
   height: auto;
   aspect-ratio: unset;
 }
+
+@media screen and (max-width: 768px) {
+  .tod-printable {
+    overflow: visible;
+    max-width: 100%;
+  }
+
+  .tod-printable--a4 {
+    width: 100%;
+    aspect-ratio: unset;
+    height: auto;
+  }
+
+  .tod-printable--fit {
+    width: 100%;
+  }
+}

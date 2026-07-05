@@ -675,4 +675,65 @@ function curseBoonTitle(character: Character, boon: { id: number, name: string }
   min-height: 1.5em;
   line-height: 1.5;
 }
+
+@media screen and (max-width: 768px) {
+  .tod-sheet {
+    height: auto;
+    min-height: 0;
+    padding: 0.6rem 0.65rem;
+    font-size: 0.78rem;
+  }
+
+  .sheet-header {
+    flex-wrap: wrap;
+  }
+
+  .sheet-title {
+    font-size: 1.35rem;
+    flex: 1 1 100%;
+  }
+
+  .header-boxes {
+    flex: 1 1 100%;
+    justify-content: flex-end;
+  }
+
+  .top-band {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .top-band .vitals-row {
+    gap: 1.25rem;
+  }
+
+  .tests-table tbody tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.35rem 0.5rem;
+  }
+
+  .test-cell {
+    width: auto;
+    border-bottom: none;
+    padding: 0.15rem 0;
+  }
+
+  .main-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .inventory-cols {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .defense-types {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+}
 </style>
