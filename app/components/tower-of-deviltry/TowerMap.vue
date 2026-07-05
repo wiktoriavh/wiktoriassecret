@@ -13,26 +13,24 @@ defineProps<{
       Tower Level: {{ map.level }}
     </h2>
 
-    <div class="map-grid" role="grid" aria-label="Tower level map">
-      <div
-        v-for="(row, rowIndex) in map.cells"
-        :key="`row-${rowIndex}`"
-        class="map-row"
-      >
-        <div
-          v-for="(cell, colIndex) in row"
-          :key="`cell-${rowIndex}-${colIndex}`"
-          class="map-cell"
-          :class="{
-            'cell-accursed': rowIndex === 5 && colIndex === 5,
-            'cell-guardian': rowIndex === 0 && colIndex === 0
-          }"
-          role="gridcell"
-        >
-          {{ cell }}
-        </div>
-      </div>
-    </div>
+    <table class="map-grid" role="grid" aria-label="Tower level map">
+      <tbody>
+        <tr v-for="(row, rowIndex) in map.cells" :key="`row-${rowIndex}`">
+          <td
+            v-for="(cell, colIndex) in row"
+            :key="`cell-${rowIndex}-${colIndex}`"
+            class="map-cell"
+            :class="{
+              'cell-accursed': rowIndex === 5 && colIndex === 5,
+              'cell-guardian': rowIndex === 0 && colIndex === 0
+            }"
+            role="gridcell"
+          >
+            {{ cell }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
     <div class="map-legend">
       <p><strong>Accursed</strong> enters bottom-right. <strong>Guardian</strong> starts top-left.</p>
@@ -50,15 +48,22 @@ defineProps<{
 
 <style scoped>
 .tod-map-sheet {
-  --tod-ink: #111;
+  --tod-ink: #000;
+  --map-cell-size: 1in;
   font-family: 'Cabin Sketch', 'Segoe UI', sans-serif;
   color: var(--tod-ink);
   background: #fff;
-  border: 3px solid var(--tod-ink);
-  outline: 2px dashed var(--tod-ink);
-  outline-offset: 4px;
-  padding: 1rem;
-  max-width: 24rem;
+  border: none;
+  outline: none;
+  padding: 0.75rem;
+  width: fit-content;
+  max-width: 100%;
+  height: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .map-title {
@@ -69,25 +74,25 @@ defineProps<{
 }
 
 .map-grid {
-  display: flex;
-  flex-direction: column;
-  border: 2px solid var(--tod-ink);
-}
-
-.map-row {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  border-collapse: collapse;
+  border: 2pt solid var(--tod-ink);
+  table-layout: fixed;
 }
 
 .map-cell {
-  aspect-ratio: 1;
-  border: 1px solid var(--tod-ink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
+  width: var(--map-cell-size);
+  height: var(--map-cell-size);
+  min-width: var(--map-cell-size);
+  min-height: var(--map-cell-size);
+  border: 1pt solid var(--tod-ink);
+  text-align: center;
+  vertical-align: middle;
+  font-size: 0.875rem;
   font-weight: 700;
-  min-height: 2.25rem;
+  padding: 0;
+  box-sizing: border-box;
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
 }
 
 .cell-accursed,

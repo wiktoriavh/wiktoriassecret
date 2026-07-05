@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { usePrintExport } from '~/composables/usePrintExport'
+import { ref } from 'vue';
+import { usePrintExport } from '~/composables/usePrintExport';
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   filename: string
-}>()
+  layout?: 'a4' | 'fit'
+}>(), {
+  layout: 'a4'
+})
 
 const emit = defineEmits<{
   generate: []
@@ -17,6 +20,10 @@ async function onSavePng() {
   await saveRefAsImage(printableRef, props.filename)
 }
 
+function onPrint() {
+  printSheet(printableRef, props.layout)
+}
+
 defineExpose({ printableRef })
 </script>
 
@@ -27,7 +34,7 @@ defineExpose({ printableRef })
       <button type="button" class="tod-btn" @click="emit('generate')">
         Re-roll
       </button>
-      <button type="button" class="tod-btn" @click="printSheet">
+      <button type="button" class="tod-btn" @click="onPrint">
         Print
       </button>
       <button type="button" class="tod-btn" @click="onSavePng">
@@ -35,13 +42,10 @@ defineExpose({ printableRef })
       </button>
     </div>
 
-    <div ref="printableRef" class="tod-printable">
+    <div ref="printableRef" class="tod-printable"
+      :class="layout === 'fit' ? 'tod-printable--fit' : 'tod-printable--a4'">
       <slot />
     </div>
-
-    <p class="tod-disclaimer">
-      For pen-and-paper play — print or save, then play at the table.
-    </p>
   </div>
 </template>
 
@@ -51,6 +55,8 @@ defineExpose({ printableRef })
   flex-direction: column;
   gap: 1rem;
   margin: 1.5rem 0;
+  width: 100%;
+  max-width: 100%;
 }
 
 .tod-controls {
@@ -77,9 +83,8 @@ defineExpose({ printableRef })
 .tod-printable {
   background: white;
   color: black;
-  padding: 0.5rem;
   border-radius: 0.25rem;
-  max-width: 8.5in;
+  padding: 0;
 }
 
 .tod-disclaimer {
