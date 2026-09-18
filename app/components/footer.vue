@@ -1,22 +1,33 @@
 <script setup lang="ts">
 const links = [
-  { name: 'TTRPG', to: '/ttrpg' },
-  { name: 'Bookmarks', to: '/bookmarks' },
-]
+  { name: "TTRPG", to: "/ttrpg" },
+  { name: "Bookmarks", to: "/bookmarks" },
+];
 </script>
 
 <template>
   <footer class="navigation">
     <div class="footer-main">
       Wiktoria's Secret
-      <NuxtLink v-for="link in links" :key="link.to" :to="link.to">{{ link.name }}</NuxtLink>
+      <NuxtLink v-for="link in links" :key="link.to" :to="link.to">{{
+        link.name
+      }}</NuxtLink>
     </div>
-    <!-- The Maw Webring -->
-    <nav class="themaw-webring" aria-label="The Maw Webring">
-      <a href="https://webring.themaw.dev/prev/?from=https%3A%2F%2Fwiktoriassecret.com%2F">&larr; Prev</a>
-      <a href="https://webring.themaw.dev/">The Maw Webring</a>
-      <a href="https://webring.themaw.dev/random/?from=https%3A%2F%2Fwiktoriassecret.com%2F">Random</a>
-      <a href="https://webring.themaw.dev/next/?from=https%3A%2F%2Fwiktoriassecret.com%2F">Next &rarr;</a>
+    <!-- Web dev & web design webring -->
+    <nav class="wd-web-webring" aria-label="Web dev and web design webring">
+      <a
+        href="http://localhost:4321/prev/?from=https%3A%2F%2Fwiktoriassecret.com%2F"
+        >&larr; Prev</a
+      >
+      <a href="http://localhost:4321/">Web dev &amp; design webring</a>
+      <a
+        href="http://localhost:4321/random/?from=https%3A%2F%2Fwiktoriassecret.com%2F"
+        >Random</a
+      >
+      <a
+        href="http://localhost:4321/next/?from=https%3A%2F%2Fwiktoriassecret.com%2F"
+        >Next &rarr;</a
+      >
     </nav>
   </footer>
 </template>
