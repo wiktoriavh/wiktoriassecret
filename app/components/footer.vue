@@ -16,16 +16,18 @@ const links = [
     <!-- Web dev & web design webring -->
     <nav class="wd-web-webring" aria-label="Web dev and web design webring">
       <a
-        href="http://localhost:4321/prev/?from=https%3A%2F%2Fwiktoriassecret.com%2F"
+        href="https://webring.webdev-webdesign.com/prev/?from=https%3A%2F%2Fwiktoriassecret.com%2F"
         >&larr; Prev</a
       >
-      <a href="http://localhost:4321/">Web dev &amp; design webring</a>
+      <a href="https://webring.webdev-webdesign.com/"
+        >Web dev &amp; design webring</a
+      >
       <a
-        href="http://localhost:4321/random/?from=https%3A%2F%2Fwiktoriassecret.com%2F"
+        href="https://webring.webdev-webdesign.com/random/?from=https%3A%2F%2Fwiktoriassecret.com%2F"
         >Random</a
       >
       <a
-        href="http://localhost:4321/next/?from=https%3A%2F%2Fwiktoriassecret.com%2F"
+        href="https://webring.webdev-webdesign.com/next/?from=https%3A%2F%2Fwiktoriassecret.com%2F"
         >Next &rarr;</a
       >
     </nav>
@@ -47,7 +49,7 @@ const links = [
   align-items: center;
 }
 
-.themaw-webring {
+.wd-web-webring {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem 1rem;
