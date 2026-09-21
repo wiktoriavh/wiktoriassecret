@@ -189,4 +189,10 @@ if (page.value) {
   max-width: 100%;
   overflow-x: clip;
 }
+
+.content :deep(pre) {
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
 </style>
